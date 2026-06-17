@@ -1,4 +1,4 @@
-const CACHE_NAME = "price-history-v1";
+const CACHE_NAME = "price-history-v6";
 const ASSETS = [
   "./",
   "./index.html",

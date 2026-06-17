@@ -43,23 +43,53 @@
             </label>
             <label>
               <span>产品</span>
-              <input id="productInput" type="text" list="productList" placeholder="牛奶 / 洗衣液 / 咖啡豆" required>
+              <input id="productInput" type="text" list="productList" placeholder="牛奶 / 咖啡豆 / 衣服" required>
             </label>
             <label>
-              <span>品牌或规格</span>
-              <input id="brandInput" type="text" placeholder="可选，例如 1L*12">
+              <span>品牌/规格</span>
+              <input id="brandInput" type="text" list="brandList" placeholder="不同品牌或规格请写清楚">
             </label>
             <label>
               <span>店铺</span>
-              <input id="storeInput" type="text" list="storeList" placeholder="Costco / 京东 / 淘宝">
+              <input id="storeInput" type="text" list="storeList" placeholder="淘宝 / Shopee / Lazada">
             </label>
             <label>
               <span>分类</span>
-              <input id="categoryInput" type="text" list="categoryList" placeholder="食品 / 日用品 / 数码">
+              <select id="categoryPresetInput">
+                <option value="">选择分类</option>
+                <option value="食品饮料">食品饮料</option>
+                <option value="生鲜冷冻">生鲜冷冻</option>
+                <option value="零食甜品">零食甜品</option>
+                <option value="日常用品">日常用品</option>
+                <option value="清洁用品">清洁用品</option>
+                <option value="个护美妆">个护美妆</option>
+                <option value="家居厨房">家居厨房</option>
+                <option value="服饰鞋包">服饰鞋包</option>
+                <option value="数码电器">数码电器</option>
+                <option value="药品保健">药品保健</option>
+                <option value="宠物用品">宠物用品</option>
+                <option value="交通出行">交通出行</option>
+                <option value="订阅服务">订阅服务</option>
+                <option value="推推专类">推推专类</option>
+                <option value="其他">其他</option>
+                <option value="__custom">自定义分类...</option>
+              </select>
+              <input id="categoryInput" type="hidden">
+            </label>
+            <label class="custom-category-field hidden" id="categoryCustomField">
+              <span>自定义分类</span>
+              <input id="categoryCustomInput" type="text" list="categoryList" placeholder="输入新的分类">
             </label>
             <label>
               <span>实付总价</span>
               <input id="priceInput" type="number" min="0" step="0.01" placeholder="0.00" required>
+            </label>
+            <label>
+              <span>币种</span>
+              <select id="currencyInput">
+                <option value="CNY">人民币 CNY</option>
+                <option value="SGD">新加坡币 SGD</option>
+              </select>
             </label>
             <label>
               <span>数量</span>
@@ -67,13 +97,40 @@
             </label>
             <label>
               <span>单位</span>
-              <input id="unitInput" type="text" list="unitList" placeholder="件 / 个 / kg / L" value="件">
+              <select id="unitPresetInput">
+                <option value="">选择单位</option>
+                <option value="件">件</option>
+                <option value="个">个</option>
+                <option value="包">包</option>
+                <option value="盒">盒</option>
+                <option value="瓶">瓶</option>
+                <option value="袋">袋</option>
+                <option value="罐">罐</option>
+                <option value="条">条</option>
+                <option value="支">支</option>
+                <option value="片">片</option>
+                <option value="卷">卷</option>
+                <option value="kg">kg</option>
+                <option value="g">g</option>
+                <option value="L">L</option>
+                <option value="ml">ml</option>
+                <option value="lb">lb</option>
+                <option value="oz">oz</option>
+                <option value="次">次</option>
+                <option value="月">月</option>
+                <option value="__custom">自定义单位...</option>
+              </select>
+              <input id="unitInput" type="hidden" value="件">
+            </label>
+            <label class="custom-unit-field hidden" id="unitCustomField">
+              <span>自定义单位</span>
+              <input id="unitCustomInput" type="text" list="unitList" placeholder="输入新的单位">
             </label>
           </div>
 
           <label class="wide-field">
             <span>优惠说明</span>
-            <input id="discountInput" type="text" placeholder="7折 / 2个2.99 / 满100减20 / 会员券">
+            <input id="discountInput" type="text" placeholder="30% OFF / 2个2.99 / 满100减20 / Voucher">
           </label>
 
           <label class="wide-field">
@@ -82,6 +139,7 @@
           </label>
 
           <datalist id="productList"></datalist>
+          <datalist id="brandList"></datalist>
           <datalist id="storeList"></datalist>
           <datalist id="categoryList"></datalist>
           <datalist id="unitList">
@@ -119,12 +177,46 @@
               <input id="currentPriceInput" type="number" min="0" step="0.01" placeholder="0.00">
             </label>
             <label>
+              <span>当前币种</span>
+              <select id="currentCurrencyInput">
+                <option value="CNY">人民币 CNY</option>
+                <option value="SGD">新加坡币 SGD</option>
+              </select>
+            </label>
+            <label>
               <span>当前数量</span>
               <input id="currentQuantityInput" type="number" min="0.0001" step="0.0001" value="1">
             </label>
             <label>
               <span>当前单位</span>
-              <input id="currentUnitInput" type="text" list="unitList" value="件">
+              <select id="currentUnitPresetInput">
+                <option value="">选择单位</option>
+                <option value="件">件</option>
+                <option value="个">个</option>
+                <option value="包">包</option>
+                <option value="盒">盒</option>
+                <option value="瓶">瓶</option>
+                <option value="袋">袋</option>
+                <option value="罐">罐</option>
+                <option value="条">条</option>
+                <option value="支">支</option>
+                <option value="片">片</option>
+                <option value="卷">卷</option>
+                <option value="kg">kg</option>
+                <option value="g">g</option>
+                <option value="L">L</option>
+                <option value="ml">ml</option>
+                <option value="lb">lb</option>
+                <option value="oz">oz</option>
+                <option value="次">次</option>
+                <option value="月">月</option>
+                <option value="__custom">自定义单位...</option>
+              </select>
+              <input id="currentUnitInput" type="hidden" value="件">
+            </label>
+            <label class="custom-unit-field hidden" id="currentUnitCustomField">
+              <span>自定义当前单位</span>
+              <input id="currentUnitCustomInput" type="text" list="unitList" placeholder="输入新的单位">
             </label>
           </div>
           <div class="comparison-result" id="comparisonResult">
@@ -132,7 +224,7 @@
           </div>
           <div class="stats-grid" id="statsGrid">
             <article>
-              <span>记录数</span>
+              <span>购买次数</span>
               <strong>0</strong>
             </article>
             <article>
@@ -148,44 +240,98 @@
               <strong>-</strong>
             </article>
           </div>
+
+          <div class="exchange-panel">
+            <div class="exchange-head">
+              <div>
+                <p class="eyebrow">汇率</p>
+                <strong id="rateSummary">SGD/CNH -</strong>
+              </div>
+              <button class="ghost-button" id="refreshRateButton" type="button">刷新</button>
+            </div>
+            <div class="exchange-grid">
+              <label>
+                <span>显示币种</span>
+                <select id="displayCurrencyInput">
+                  <option value="CNY">人民币 CNY</option>
+                  <option value="SGD">新加坡币 SGD</option>
+                </select>
+              </label>
+              <label>
+                <span>1 SGD 等于</span>
+                <input id="rateInput" type="number" min="0" step="0.0001" placeholder="SGD/CNH">
+              </label>
+            </div>
+            <p class="rate-status" id="rateStatus">汇率会自动尝试更新。</p>
+          </div>
         </section>
       </section>
 
-      <section class="history-panel" aria-label="历史记录">
+      <section class="history-panel" aria-label="商品档案">
         <div class="history-head">
           <div>
-            <p class="eyebrow">历史记录</p>
-            <h2>搜索以前买过的价格</h2>
+            <p class="eyebrow">商品档案</p>
+            <h2>点击商品查看购买记录</h2>
           </div>
           <div class="history-controls">
-            <input id="searchInput" type="search" placeholder="搜索产品、店铺、优惠或备注">
+            <input id="searchInput" type="search" placeholder="搜索产品、品牌、店铺、优惠或备注">
             <select id="categoryFilter" aria-label="按分类筛选">
               <option value="">全部分类</option>
             </select>
             <select id="sortSelect" aria-label="排序">
-              <option value="date-desc">最新优先</option>
+              <option value="recent-desc">最近购买</option>
               <option value="unit-asc">单价最低</option>
               <option value="unit-desc">单价最高</option>
               <option value="name-asc">产品 A-Z</option>
+              <option value="count-desc">购买次数</option>
             </select>
           </div>
         </div>
+
+        <section class="detail-panel hidden" id="productDetail" aria-label="商品购买记录">
+          <div class="detail-head">
+            <div>
+              <p class="eyebrow">商品详情</p>
+              <h3 id="detailTitle">-</h3>
+              <p id="detailMeta">-</p>
+            </div>
+            <div class="detail-actions">
+              <button class="ghost-button" id="addForProductButton" type="button">新增这件商品</button>
+              <button class="ghost-button" id="closeDetailButton" type="button">关闭</button>
+            </div>
+          </div>
+          <div class="detail-stats" id="detailStats"></div>
+          <div class="table-wrap detail-table-wrap">
+            <table class="detail-table">
+              <thead>
+                <tr>
+                  <th>日期</th>
+                  <th>店铺</th>
+                  <th>实付</th>
+                  <th>数量</th>
+                  <th>单价</th>
+                  <th>优惠说明</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="detailRecordsBody"></tbody>
+            </table>
+          </div>
+        </section>
 
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>日期</th>
                 <th>产品</th>
-                <th>店铺</th>
-                <th>实付</th>
-                <th>数量</th>
-                <th>单价</th>
-                <th>优惠说明</th>
+                <th>购买次数</th>
+                <th>历史最低</th>
+                <th>平均单价</th>
+                <th>最近购买</th>
                 <th>操作</th>
               </tr>
             </thead>
-            <tbody id="recordsBody"></tbody>
+            <tbody id="groupsBody"></tbody>
           </table>
           <div class="empty-state" id="emptyState">
             还没有记录。先把最近一次购买填进去，下一次打折时就能直接比较。
@@ -194,10 +340,20 @@
       </section>
     </main>
 
-    <template id="recordRowTemplate">
+    <template id="groupRowTemplate">
+      <tr class="group-row" tabindex="0">
+        <td data-label="产品"></td>
+        <td data-label="购买次数"></td>
+        <td data-label="历史最低"></td>
+        <td data-label="平均单价"></td>
+        <td data-label="最近购买"></td>
+        <td data-label="操作" class="row-actions"></td>
+      </tr>
+    </template>
+
+    <template id="detailRowTemplate">
       <tr>
         <td data-label="日期"></td>
-        <td data-label="产品"></td>
         <td data-label="店铺"></td>
         <td data-label="实付"></td>
         <td data-label="数量"></td>

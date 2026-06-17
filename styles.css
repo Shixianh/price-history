@@ -284,6 +284,39 @@ textarea:focus {
   color: #1e3a8a;
 }
 
+.exchange-panel {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--soft-line);
+}
+
+.exchange-head,
+.detail-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.exchange-head strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.exchange-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.rate-status {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -376,6 +409,21 @@ tbody tr:hover {
   background: #fbfdff;
 }
 
+.group-row {
+  cursor: pointer;
+}
+
+.group-row.selected {
+  background: #effaf7;
+  outline: 2px solid rgba(15, 118, 110, 0.18);
+  outline-offset: -2px;
+}
+
+.group-row:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.28);
+  outline-offset: -3px;
+}
+
 tbody tr:last-child td {
   border-bottom: 0;
 }
@@ -408,6 +456,71 @@ tbody tr:last-child td {
 
 .empty-state.visible {
   display: block;
+}
+
+.detail-panel {
+  margin-bottom: 16px;
+  padding: 16px;
+  border: 1px solid var(--soft-line);
+  border-radius: 8px;
+  background: #fbfcfe;
+}
+
+.detail-head h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+.detail-head p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.detail-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.detail-stats article {
+  min-height: 72px;
+  border: 1px solid var(--soft-line);
+  border-radius: 8px;
+  padding: 11px;
+  background: #ffffff;
+}
+
+.detail-stats span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  margin-bottom: 7px;
+}
+
+.detail-stats strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.96rem;
+  overflow-wrap: anywhere;
+}
+
+.detail-table-wrap {
+  background: #ffffff;
+}
+
+.detail-table {
+  min-width: 860px;
 }
 
 @media (max-width: 920px) {
@@ -454,8 +567,20 @@ tbody tr:last-child td {
 
   .field-grid,
   .compare-grid,
-  .stats-grid {
+  .exchange-grid,
+  .stats-grid,
+  .detail-stats {
     grid-template-columns: 1fr;
+  }
+
+  .exchange-head,
+  .detail-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .detail-actions {
+    justify-content: flex-start;
   }
 
   .form-footer {
@@ -479,6 +604,10 @@ tbody tr:last-child td {
   td {
     display: block;
     width: 100%;
+    min-width: 0;
+  }
+
+  .detail-table {
     min-width: 0;
   }
 
