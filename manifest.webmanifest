@@ -1,0 +1,18 @@
+{
+  "name": "价格记录",
+  "short_name": "价格记录",
+  "description": "记录购买价格、优惠力度和历史最低价。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

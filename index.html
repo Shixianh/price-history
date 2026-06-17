@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>价格记录</title>
+    <meta name="theme-color" content="#0f766e">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">本地保存</p>
+          <h1>价格记录</h1>
+        </div>
+        <div class="top-actions">
+          <button class="ghost-button" id="exportCsvButton" type="button">导出 CSV</button>
+          <button class="ghost-button" id="exportJsonButton" type="button">备份 JSON</button>
+          <label class="ghost-button file-button" for="importFile">导入</label>
+          <input id="importFile" type="file" accept=".json,.csv,text/csv,application/json">
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="价格记录工作区">
+        <form class="entry-panel" id="recordForm">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">新增记录</p>
+              <h2 id="formTitle">买过的价格</h2>
+            </div>
+            <button class="ghost-button hidden" id="cancelEditButton" type="button">取消编辑</button>
+          </div>
+
+          <input id="recordId" type="hidden">
+
+          <div class="field-grid">
+            <label>
+              <span>日期</span>
+              <input id="dateInput" type="date" required>
+            </label>
+            <label>
+              <span>产品</span>
+              <input id="productInput" type="text" list="productList" placeholder="牛奶 / 洗衣液 / 咖啡豆" required>
+            </label>
+            <label>
+              <span>品牌或规格</span>
+              <input id="brandInput" type="text" placeholder="可选，例如 1L*12">
+            </label>
+            <label>
+              <span>店铺</span>
+              <input id="storeInput" type="text" list="storeList" placeholder="Costco / 京东 / 淘宝">
+            </label>
+            <label>
+              <span>分类</span>
+              <input id="categoryInput" type="text" list="categoryList" placeholder="食品 / 日用品 / 数码">
+            </label>
+            <label>
+              <span>实付总价</span>
+              <input id="priceInput" type="number" min="0" step="0.01" placeholder="0.00" required>
+            </label>
+            <label>
+              <span>数量</span>
+              <input id="quantityInput" type="number" min="0.0001" step="0.0001" value="1" required>
+            </label>
+            <label>
+              <span>单位</span>
+              <input id="unitInput" type="text" list="unitList" placeholder="件 / 个 / kg / L" value="件">
+            </label>
+          </div>
+
+          <label class="wide-field">
+            <span>优惠说明</span>
+            <input id="discountInput" type="text" placeholder="7折 / 2个2.99 / 满100减20 / 会员券">
+          </label>
+
+          <label class="wide-field">
+            <span>备注</span>
+            <textarea id="noteInput" rows="3" placeholder="口味、型号、是否含税、物流费等"></textarea>
+          </label>
+
+          <datalist id="productList"></datalist>
+          <datalist id="storeList"></datalist>
+          <datalist id="categoryList"></datalist>
+          <datalist id="unitList">
+            <option value="件"></option>
+            <option value="个"></option>
+            <option value="包"></option>
+            <option value="盒"></option>
+            <option value="瓶"></option>
+            <option value="kg"></option>
+            <option value="g"></option>
+            <option value="L"></option>
+            <option value="ml"></option>
+          </datalist>
+
+          <div class="form-footer">
+            <p id="liveUnitPrice">单价会在保存后自动计算。</p>
+            <button class="primary-button" id="saveButton" type="submit">保存记录</button>
+          </div>
+        </form>
+
+        <section class="insight-panel" aria-label="当前促销对比">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">下次打折时</p>
+              <h2>快速对比</h2>
+            </div>
+          </div>
+          <div class="compare-grid">
+            <label>
+              <span>搜索产品</span>
+              <input id="compareProductInput" type="text" list="productList" placeholder="输入要比较的商品">
+            </label>
+            <label>
+              <span>当前实付</span>
+              <input id="currentPriceInput" type="number" min="0" step="0.01" placeholder="0.00">
+            </label>
+            <label>
+              <span>当前数量</span>
+              <input id="currentQuantityInput" type="number" min="0.0001" step="0.0001" value="1">
+            </label>
+            <label>
+              <span>当前单位</span>
+              <input id="currentUnitInput" type="text" list="unitList" value="件">
+            </label>
+          </div>
+          <div class="comparison-result" id="comparisonResult">
+            先搜索商品，再输入这次促销的实付价。
+          </div>
+          <div class="stats-grid" id="statsGrid">
+            <article>
+              <span>记录数</span>
+              <strong>0</strong>
+            </article>
+            <article>
+              <span>最低单价</span>
+              <strong>-</strong>
+            </article>
+            <article>
+              <span>平均单价</span>
+              <strong>-</strong>
+            </article>
+            <article>
+              <span>最近购买</span>
+              <strong>-</strong>
+            </article>
+          </div>
+        </section>
+      </section>
+
+      <section class="history-panel" aria-label="历史记录">
+        <div class="history-head">
+          <div>
+            <p class="eyebrow">历史记录</p>
+            <h2>搜索以前买过的价格</h2>
+          </div>
+          <div class="history-controls">
+            <input id="searchInput" type="search" placeholder="搜索产品、店铺、优惠或备注">
+            <select id="categoryFilter" aria-label="按分类筛选">
+              <option value="">全部分类</option>
+            </select>
+            <select id="sortSelect" aria-label="排序">
+              <option value="date-desc">最新优先</option>
+              <option value="unit-asc">单价最低</option>
+              <option value="unit-desc">单价最高</option>
+              <option value="name-asc">产品 A-Z</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>产品</th>
+                <th>店铺</th>
+                <th>实付</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>优惠说明</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+          <div class="empty-state" id="emptyState">
+            还没有记录。先把最近一次购买填进去，下一次打折时就能直接比较。
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <template id="recordRowTemplate">
+      <tr>
+        <td data-label="日期"></td>
+        <td data-label="产品"></td>
+        <td data-label="店铺"></td>
+        <td data-label="实付"></td>
+        <td data-label="数量"></td>
+        <td data-label="单价"></td>
+        <td data-label="优惠说明"></td>
+        <td data-label="操作" class="row-actions"></td>
+      </tr>
+    </template>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
